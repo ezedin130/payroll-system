@@ -1,0 +1,16 @@
+spring:
+  application:
+      name:payroll_system
+  datasource:
+      url: jdbc:mysql://localhost:3306/payroll_system
+      username: root
+      password: ''
+  jpa:
+      generate-ddl: true
+      hibernate:
+          ddl-auto: update
+      show-sql: true
+      properties:
+        hibernate:
+            format_sql: false
+            dialect: org.hibernate.dialect.MySQL8Dialect
