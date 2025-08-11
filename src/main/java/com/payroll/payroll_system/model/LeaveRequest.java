@@ -1,6 +1,7 @@
 package com.payroll.payroll_system.model;
 
 import com.payroll.payroll_system.enums.LeaveType;
+import com.payroll.payroll_system.enums.status.LeaveRequestStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class LeaveRequest {
     private LocalDate endDate;
     @NotNull(message = "leave status is required")
     @Enumerated(EnumType.STRING)
-    private LeaveType status;
+    private LeaveRequestStatus status;
     @NotNull(message = "leave status is required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emp_id")
