@@ -16,11 +16,11 @@ public class EmployeeInDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private String position;
     private String bankAccountNumber;
     private int workingdays;
     private double baseSalary;
     private double deposit;
     private String status;
     private Long deptId;
+    private Long roleId;
 }

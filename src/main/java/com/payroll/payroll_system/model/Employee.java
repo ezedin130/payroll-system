@@ -29,8 +29,6 @@ public class Employee {
     private String lastName;
     @NotBlank(message = "phone number is required")
     private String phoneNumber;
-    @NotBlank(message = "position is required")
-    private String position;
     @NotBlank(message = "bank account number is required")
     private String bankAccountNumber;
     @NotNull(message = "hire date is required")
@@ -50,4 +48,8 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id")
     private Department deptId;
+    @NotNull(message = "role id is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role roleId;
 }
