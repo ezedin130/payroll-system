@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaySlip {
+    //TODO:  the system should insert data to the table by itself after calculating everything
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
