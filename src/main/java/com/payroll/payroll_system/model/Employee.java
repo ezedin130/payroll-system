@@ -39,8 +39,14 @@ public class Employee {
     @Min(1)
     @Max(30)
     private int workingdays;
-    @NotNull(message = "base salary is required")
+    @NotNull(message = "net salary is required")
+    private double netSalary;
+    @Transient
     private double baseSalary;
+    @Transient
+    private double totalAllowance;
+    @Transient
+    private double totalDeduction;
     @NotNull(message = "deposit is required")
     private double deposit;
     @NotNull(message = "status is required")

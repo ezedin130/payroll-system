@@ -39,6 +39,7 @@ public class EmployeeMapper {
         dto.setHireDate(empl.getHireDate());
         dto.setWorkingdays(empl.getWorkingdays());
         dto.setBaseSalary(empl.getBaseSalary());
+        //ToDo: add the calculated fields from the service not the entity
         dto.setDeposit(empl.getDeposit());
         dto.setStatus(empl.getStatus().name());
         dto.setDeptId(empl.getDeptId().getId());
