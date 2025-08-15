@@ -11,6 +11,7 @@ public class EmployeeOutDto {
     private String lastName;
     private String phoneNumber;
     private String bankAccountNumber;
+    private String position;
     private LocalDate hireDate;
     private int workingdays;
     private double baseSalary;

@@ -31,6 +31,8 @@ public class Employee {
     private String phoneNumber;
     @NotBlank(message = "bank account number is required")
     private String bankAccountNumber;
+    @NotBlank(message = "position is required")
+    private String position;
     @NotNull(message = "hire date is required")
     private LocalDate hireDate;
     @NotNull(message = "total working days is required")

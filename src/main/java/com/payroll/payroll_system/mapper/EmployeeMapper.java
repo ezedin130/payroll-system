@@ -18,6 +18,7 @@ public class EmployeeMapper {
                 .lastName(dto.getLastName())
                 .phoneNumber(dto.getPhoneNumber())
                 .bankAccountNumber(dto.getBankAccountNumber())
+                .position(dto.getPosition())
                 .hireDate(LocalDate.now())
                 .workingdays(dto.getWorkingdays())
                 .baseSalary(dto.getBaseSalary())
@@ -34,6 +35,7 @@ public class EmployeeMapper {
         dto.setLastName(empl.getLastName());
         dto.setPhoneNumber(empl.getPhoneNumber());
         dto.setBankAccountNumber(empl.getBankAccountNumber());
+        dto.setPosition(empl.getPosition());
         dto.setHireDate(empl.getHireDate());
         dto.setWorkingdays(empl.getWorkingdays());
         dto.setBaseSalary(empl.getBaseSalary());
