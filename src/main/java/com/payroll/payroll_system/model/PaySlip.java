@@ -22,6 +22,12 @@ public class PaySlip {
     //'ToDo: make sure the deduction and allowances are based on employee position '
     @NotNull(message = "total deduction is required")
     private double totalDeduction;
+    @NotNull(message = "taxable income is required")
+    private double taxableIncome;
+    @NotNull(message = "income tax is required")
+    private double incomeTax;
+    @NotNull(message = "employee Pension is required")
+    private double employeePension;
     @NotNull(message = "total allowance is required")
     private double totalAllowance;
     @NotNull(message = "net salary is required")
