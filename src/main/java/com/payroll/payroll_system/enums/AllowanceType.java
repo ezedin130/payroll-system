@@ -8,29 +8,33 @@ import static com.payroll.payroll_system.enums.Position.STAFF;
 public enum AllowanceType {
     TRANSPORT{
         @Override
-        public BigDecimal getAmountForPosition(Position position){
+        public double getAmountForPosition(Position position){
             switch (position) {
                 case MANAGER:
-                    return new BigDecimal("5000");
+                    return 5000.0;
                 case STAFF:
-                    return new BigDecimal("3000");
+                    return 3000.0;
+                case INTERN:
+                    return 500.0;
                 default:
-                    return new BigDecimal("1000");
+                    return 1000.0;
             }
         }
     },
     HOUSING{
         @Override
-        public BigDecimal getAmountForPosition(Position position){
+        public double getAmountForPosition(Position position){
             switch (position) {
                 case MANAGER:
-                    return new BigDecimal("10000");
+                    return 10000.0;
                 case STAFF:
-                    return new BigDecimal("5000");
+                    return  5000.0;
+                case INTERN:
+                    return 2000.0;
                 default:
-                    return new BigDecimal("3000");
+                    return 3000.0;
             }
         }
     };
-    public abstract BigDecimal getAmountForPosition(Position position);
+    public abstract double getAmountForPosition(Position position);
 }
