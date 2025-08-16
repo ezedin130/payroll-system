@@ -6,12 +6,16 @@ import com.payroll.payroll_system.enums.status.EmployeeStatus;
 import com.payroll.payroll_system.model.Department;
 import com.payroll.payroll_system.model.Employee;
 import com.payroll.payroll_system.model.Role;
+import com.payroll.payroll_system.service.PaySlipService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeMapper {
+    private final PaySlipService service;
     public Employee toEntity(EmployeeInDto dto, Department dept , Role role){
         return Employee.builder()
                 .firstName(dto.getFirstName())
@@ -29,6 +33,13 @@ public class EmployeeMapper {
                 .build();
     }
     public EmployeeOutDto toDto(Employee empl){
+        double totalAllowance = service.calculateTotalAllowance(empl);
+        double grossSalary = service.calculateGrossSalary(empl, totalAllowance);
+        double pension = service.calculatePension(grossSalary);
+        double taxableIncome = service.calculateTaxableIncome(grossSalary, pension);
+        double incomeTax = service.calculateIncomeTax(taxableIncome);
+        double totalDeduction = service.calculateTotalDeduction(pension, incomeTax);
+        double netSalary = service.calculateNetSalary(grossSalary, pension, incomeTax);
         EmployeeOutDto dto = new EmployeeOutDto();
         dto.setId(empl.getId());
         dto.setFirstName(empl.getFirstName());
@@ -39,7 +50,9 @@ public class EmployeeMapper {
         dto.setHireDate(empl.getHireDate());
         dto.setWorkingdays(empl.getWorkingdays());
         dto.setBaseSalary(empl.getBaseSalary());
-        //ToDo: add the calculated fields from the service not the entity
+        dto.setTotalAllowance(totalAllowance);
+        dto.setTotalDeduction(totalDeduction);
+        dto.setNetSalary(netSalary);
         dto.setDeposit(empl.getDeposit());
         dto.setStatus(empl.getStatus().name());
         dto.setDeptId(empl.getDeptId().getId());
