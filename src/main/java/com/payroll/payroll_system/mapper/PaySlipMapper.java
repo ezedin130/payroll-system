@@ -8,15 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaySlipMapper {
-    public PaySlip toEntity(PaySlipInDto dto, Employee empl){
-        return PaySlip.builder()
-                .grossSalary(dto.getGrossSalary())
-                .totalDeduction(dto.getTotalDeduction())
-                .totalAllowance(dto.getTotalAllowance())
-                .netSalary(dto.getNetSalary())
-                .empId(empl)
-                .build();
-    }
     public PaySlipOutDto toDto(PaySlip slip){
         PaySlipOutDto dto = new PaySlipOutDto();
         dto.setId(slip.getId());
