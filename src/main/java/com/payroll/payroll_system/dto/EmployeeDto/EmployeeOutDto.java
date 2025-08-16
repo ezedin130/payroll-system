@@ -16,9 +16,9 @@ public class EmployeeOutDto {
     private LocalDate hireDate;
     private int workingdays;
     private double baseSalary;
-    private BigDecimal totalAllowance;
-    private BigDecimal totalDeduction;
-    private BigDecimal netSalary;
+    private double totalAllowance;
+    private double totalDeduction;
+    private double netSalary;
     private double deposit;
     private String status;
     private Long deptId;
