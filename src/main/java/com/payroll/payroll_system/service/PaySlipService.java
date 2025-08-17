@@ -85,23 +85,21 @@ public class PaySlipService {
     }
 
     private double getRate(double taxableIncome) {
-        if (taxableIncome <= 600) return 0.10;
-        else if (taxableIncome <= 1650) return 0.15;
-        else if (taxableIncome <= 3200) return 0.20;
-        else if (taxableIncome <= 5250) return 0.25;
-        else if (taxableIncome <= 7800) return 0.30;
-        else if (taxableIncome <= 10900) return 0.35;
-        else return 0.37;
+        if (taxableIncome <= 2000) return 0.0;
+        else if (taxableIncome <= 4000) return 0.15;
+        else if (taxableIncome <= 7000) return 0.20;
+        else if (taxableIncome <= 10000) return 0.25;
+        else if (taxableIncome <= 14000) return 0.30;
+        else return 0.35;
     }
 
     private double getDeductible(double taxableIncome) {
-        if (taxableIncome <= 600) return 0;
-        else if (taxableIncome <= 1650) return 60;
-        else if (taxableIncome <= 3200) return 142.5;
-        else if (taxableIncome <= 5250) return 302.5;
-        else if (taxableIncome <= 7800) return 565;
-        else if (taxableIncome <= 10900) return 955;
-        else return 1500;
+        if (taxableIncome <= 2000) return 0.0;
+        else if (taxableIncome <= 4000) return 300;
+        else if (taxableIncome <= 7000) return 500;
+        else if (taxableIncome <= 10000) return 850;
+        else if (taxableIncome <= 14000) return 1350;
+        else return 2050;
     }
 
     public double calculateNetSalary(double grossSalary, double pension, double incomeTax) {
