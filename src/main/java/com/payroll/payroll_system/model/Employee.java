@@ -40,9 +40,9 @@ public class Employee {
     @Max(30)
     private int workingdays;
     @NotNull(message = "net salary is required")
-    private double netSalary;
-    @Transient
     private double baseSalary;
+    @Transient
+    private double netSalary;
     @Transient
     private double totalAllowance;
     @Transient
