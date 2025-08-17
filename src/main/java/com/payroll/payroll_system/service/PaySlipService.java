@@ -27,9 +27,7 @@ public class PaySlipService {
     @Autowired
     private final PaySlipMapper mapper;
 
-    public PaySlipOutDto createPaySlip(PaySlipInDto dto){
-        Employee empl = empRepo.findById(dto.getEmpId())
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    public PaySlip generateSlip(Employee empl){
         double totalAllowance = calculateTotalAllowance(empl);
         double grossSalary = calculateGrossSalary(empl,totalAllowance);
         double pension = calculatePension(grossSalary);
@@ -38,7 +36,7 @@ public class PaySlipService {
         double totalDeduction = calculateTotalDeduction(incomeTax,pension);
         double netSalary = calculateNetSalary(grossSalary,pension,incomeTax);
 
-        PaySlip slip = PaySlip.builder()
+        return PaySlip.builder()
                 .empId(empl)
                 .grossSalary(grossSalary)
                 .totalDeduction(totalDeduction)
@@ -48,6 +46,11 @@ public class PaySlipService {
                 .incomeTax(incomeTax)
                 .netSalary(netSalary)
                 .build();
+    }
+    public PaySlipOutDto createPaySlip(PaySlipInDto dto){
+        Employee empl = empRepo.findById(dto.getEmpId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        PaySlip slip = generateSlip(empl);
         PaySlip savedSlip = slipRepo.save(slip);
         return mapper.toDto(savedSlip);
     }
