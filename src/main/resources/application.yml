@@ -1,6 +1,7 @@
 spring:
   application:
       name:payroll_system
+
   datasource:
       url: jdbc:mysql://localhost:3306/payroll_system
       username: root
