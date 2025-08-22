@@ -25,12 +25,12 @@ public class PayrollPeriodController {
         service.runPayroll();
         return ResponseEntity.ok("Payroll has been processed successfully");
     }
-    @GetMapping("payroll")
+    @GetMapping("/payroll")
     public ResponseEntity<List<PayrollPeriodOutDto>> getAllPayrolls(){
         List<PayrollPeriodOutDto> result = service.getAllPayrolls();
         return ResponseEntity.ok(result);
     }
-    @GetMapping("/{id")
+    @GetMapping("/{id}")
     public ResponseEntity<PayrollPeriodOutDto> getPayroll(@PathVariable Long id){
         PayrollPeriod payroll = service.getPayrollById(id);
         PayrollPeriodOutDto dto = mapper.toDto(payroll);
