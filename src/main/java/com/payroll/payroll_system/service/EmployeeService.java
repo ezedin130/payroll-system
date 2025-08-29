@@ -31,9 +31,8 @@ public class EmployeeService {
     public EmployeeOutDto createEmployee(EmployeeInDto dto){
         Department dept = deptRepo.findById(dto.getDeptId())
                 .orElseThrow(() -> new RuntimeException("Department Not Found"));
-        Role role = roleRepo.findById(dto.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role Not Found"));
-        Employee empl = mapper.toEntity(dto, dept , role);
+
+        Employee empl = mapper.toEntity(dto, dept);
         Employee savedEmpl = empRepo.save(empl);
         return mapper.toDto(savedEmpl);
     }
