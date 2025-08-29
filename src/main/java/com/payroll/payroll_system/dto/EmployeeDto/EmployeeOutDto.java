@@ -22,5 +22,4 @@ public class EmployeeOutDto {
     private double deposit;
     private String status;
     private Long deptId;
-    private Long roleId;
 }

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class EmployeeMapper {
     private final PaySlipService service;
-    public Employee toEntity(EmployeeInDto dto, Department dept , Role role){
+    public Employee toEntity(EmployeeInDto dto, Department dept ){
         return Employee.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -29,7 +29,6 @@ public class EmployeeMapper {
                 .deposit(dto.getDeposit())
                 .status(EmployeeStatus.valueOf(dto.getStatus()))
                 .deptId(dept)
-                .roleId(role)
                 .build();
     }
     public EmployeeOutDto toDto(Employee empl){
@@ -56,7 +55,6 @@ public class EmployeeMapper {
         dto.setDeposit(empl.getDeposit());
         dto.setStatus(empl.getStatus().name());
         dto.setDeptId(empl.getDeptId().getId());
-        dto.setRoleId(empl.getRoleId().getId());
         return dto;
     }
 }
