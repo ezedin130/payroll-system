@@ -1,15 +1,21 @@
 package com.payroll.payroll_system.service;
 
 import com.payroll.payroll_system.dto.UserDto.UserInDto;
+import com.payroll.payroll_system.dto.UserDto.UserLoginDto;
 import com.payroll.payroll_system.dto.UserDto.UserOutDto;
 import com.payroll.payroll_system.mapper.UserMapper;
 import com.payroll.payroll_system.model.Employee;
+import com.payroll.payroll_system.model.Role;
 import com.payroll.payroll_system.model.User;
 import com.payroll.payroll_system.repo.EmployeeRepo;
+import com.payroll.payroll_system.repo.RoleRepo;
 import com.payroll.payroll_system.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +30,30 @@ public class UserService {
     private final EmployeeRepo empRepo;
     @Autowired
     private final UserMapper mapper;
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private final RoleRepo roleRepo;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    @Autowired
+    private final AuthenticationManager authManager;
+    @Autowired
+    private final JwtService jwtService;
     public UserOutDto createUser(UserInDto dto){
         Employee empl = empRepo.findById(dto.getEmpId())
                 .orElseThrow(() -> new RuntimeException("Employee Not Found"));
-        User user = mapper.toEntity(dto,empl);
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
+        Role role = roleRepo.findById(dto.getRoleId())
+                .orElseThrow(() -> new RuntimeException("Role Not Found"));
+        User user = mapper.toEntity(dto,empl,role);
+        user.setPassword(encoder.encode(user.getPassword()));
         User savedUser = userRepo.save(user);
         return mapper.toDto(savedUser);
+    }
+    public String verify(UserLoginDto user) {
+        Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        if(auth.isAuthenticated()){
+            return jwtService.generateToken(user.getUsername());
+        }
+        return "failed";
     }
     public List<UserOutDto> getAllUsers(){
         return userRepo.findAll().stream()

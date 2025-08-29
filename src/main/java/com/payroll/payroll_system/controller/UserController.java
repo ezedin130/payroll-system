@@ -1,6 +1,7 @@
 package com.payroll.payroll_system.controller;
 
 import com.payroll.payroll_system.dto.UserDto.UserInDto;
+import com.payroll.payroll_system.dto.UserDto.UserLoginDto;
 import com.payroll.payroll_system.dto.UserDto.UserOutDto;
 import com.payroll.payroll_system.mapper.UserMapper;
 import com.payroll.payroll_system.model.User;
@@ -24,6 +25,10 @@ public class UserController {
     public ResponseEntity<UserOutDto> createUser(@RequestBody UserInDto dto){
         UserOutDto result = service.createUser(dto);
         return ResponseEntity.ok(result);
+    }
+    @PostMapping("/login")
+    public String login(@RequestBody UserLoginDto user) {
+        return service.verify(user);
     }
     @GetMapping("/get-all-users")
     public ResponseEntity<List<UserOutDto>> getAllUsers(){
