@@ -1,5 +1,6 @@
 package com.payroll.payroll_system.service;
 
+import com.payroll.payroll_system.dto.AuthResponse;
 import com.payroll.payroll_system.dto.UserDto.UserInDto;
 import com.payroll.payroll_system.dto.UserDto.UserLoginDto;
 import com.payroll.payroll_system.dto.UserDto.UserOutDto;
@@ -13,6 +14,7 @@ import com.payroll.payroll_system.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,12 +50,24 @@ public class UserService {
         User savedUser = userRepo.save(user);
         return mapper.toDto(savedUser);
     }
-    public String verify(UserLoginDto user) {
-        Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        if(auth.isAuthenticated()){
-            return jwtService.generateToken(user.getUsername());
+    public AuthResponse verify(UserLoginDto user) {
+        Authentication auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+        );
+
+        if (auth.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            String accessToken = jwtService.generateToken(user.getUsername());
+
+            User users = userRepo.findByUsername(user.getUsername());
+
+            return new AuthResponse(
+                    accessToken,
+                    users.getUsername(),
+                    users.getRoleId().getName()
+            );
         }
-        return "failed";
+        return null;
     }
     public List<UserOutDto> getAllUsers(){
         return userRepo.findAll().stream()

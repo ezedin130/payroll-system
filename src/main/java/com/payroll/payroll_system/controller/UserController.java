@@ -1,5 +1,6 @@
 package com.payroll.payroll_system.controller;
 
+import com.payroll.payroll_system.dto.AuthResponse;
 import com.payroll.payroll_system.dto.UserDto.UserInDto;
 import com.payroll.payroll_system.dto.UserDto.UserLoginDto;
 import com.payroll.payroll_system.dto.UserDto.UserOutDto;
@@ -27,7 +28,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginDto user) {
+    public AuthResponse login(@RequestBody UserLoginDto user) {
         return service.verify(user);
     }
     @GetMapping("/get-all-users")
