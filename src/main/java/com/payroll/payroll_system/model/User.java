@@ -29,4 +29,8 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emp_id")
     private Employee empId;
+    @NotNull(message = "role id is required")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role roleId;
 }

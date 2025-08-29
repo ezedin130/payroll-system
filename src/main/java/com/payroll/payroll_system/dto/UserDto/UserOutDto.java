@@ -10,4 +10,5 @@ public class UserOutDto {
     private String password;
     private LocalDate createdAt;
     private Long empId;
+    private Long roleId;
 }

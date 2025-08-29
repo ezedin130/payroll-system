@@ -7,4 +7,5 @@ public class UserInDto {
     private String username;
     private String password;
     private Long empId;
+    private Long roleId;
 }
