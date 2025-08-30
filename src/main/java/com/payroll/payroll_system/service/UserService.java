@@ -69,6 +69,26 @@ public class UserService {
         }
         return null;
     }
+    public UserOutDto createUserForEmployee(Employee employee) {
+        String username = generateUsername(employee.getFirstName(), employee.getLastName());
+        String rawPassword = generateRandomPassword(6);
+        String hashedPassword = encoder.encode(rawPassword);
+
+        Role role = roleRepo.findByName("EMPLOYEE")
+                .orElseThrow(() -> new RuntimeException("Default role EMPLOYEE not found"));
+
+        User user = User.builder()
+                .username(username)
+                .password(hashedPassword)
+                .empId(employee)
+                .roleId(role)
+                .build();
+
+        User savedUser = userRepo.save(user);
+        return mapper.toDto(savedUser);
+    }
+
+
     public List<UserOutDto> getAllUsers(){
         return userRepo.findAll().stream()
                 .map(mapper::toDto)
@@ -77,5 +97,12 @@ public class UserService {
     public User findUserById(Long id){
         return userRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User with this id is not found"));
+    }
+    private String generateUsername(String firstName, String lastName) {
+        return firstName.toLowerCase() + lastName.charAt(0);
+    }
+
+    private String generateRandomPassword(int length) {
+        return java.util.UUID.randomUUID().toString().substring(0, length);
     }
 }
