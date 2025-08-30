@@ -27,6 +27,8 @@ public class EmployeeService {
     private final RoleRepo roleRepo;
     @Autowired
     private final EmployeeMapper mapper;
+    @Autowired
+    private final UserService userService;
 
     public EmployeeOutDto createEmployee(EmployeeInDto dto){
         Department dept = deptRepo.findById(dto.getDeptId())
@@ -34,6 +36,7 @@ public class EmployeeService {
 
         Employee empl = mapper.toEntity(dto, dept);
         Employee savedEmpl = empRepo.save(empl);
+        userService.createUserForEmployee(savedEmpl);
         return mapper.toDto(savedEmpl);
     }
     public List<EmployeeOutDto> getAllEmployees(){
