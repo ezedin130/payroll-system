@@ -30,7 +30,7 @@ public class User {
     @JoinColumn(name = "emp_id")
     private Employee empId;
     @NotNull(message = "role id is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role roleId;
 }
