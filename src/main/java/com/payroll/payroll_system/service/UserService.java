@@ -20,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,7 @@ public class UserService {
         User user = User.builder()
                 .username(username)
                 .password(hashedPassword)
+                .createdAt(LocalDate.now())
                 .empId(employee)
                 .roleId(role)
                 .build();
