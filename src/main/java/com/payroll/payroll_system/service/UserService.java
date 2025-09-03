@@ -72,8 +72,8 @@ public class UserService {
     }
     public UserOutDto createUserForEmployee(Employee employee) {
         String username = generateUsername(employee.getFirstName(), employee.getLastName());
-        String rawPassword = generateRandomPassword(6);
-        String hashedPassword = encoder.encode(rawPassword);
+        String defaultPassword = username + "12";
+        String hashedPassword = encoder.encode(defaultPassword);
 
         Role role = roleRepo.findByName("EMPLOYEE")
                 .orElseThrow(() -> new RuntimeException("Default role EMPLOYEE not found"));
@@ -89,7 +89,27 @@ public class UserService {
         User savedUser = userRepo.save(user);
         return mapper.toDto(savedUser);
     }
+    public void changeOwnPassword(String username, String currentPassword, String newPassword) {
+        User user = userRepo.findByUsername(username);
+        if(user == null){
+            throw new RuntimeException("User not found");
+        }
 
+        if (!encoder.matches(currentPassword, user.getPassword())) {
+            throw new RuntimeException("Current password is incorrect");
+        }
+
+        user.setPassword(encoder.encode(newPassword));
+        userRepo.save(user);
+    }
+
+    public void resetUserPassword(Long targetUserId, String newPassword) {
+        User user = userRepo.findById(targetUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setPassword(encoder.encode(newPassword));
+        userRepo.save(user);
+    }
 
     public List<UserOutDto> getAllUsers(){
         return userRepo.findAll().stream()
@@ -104,7 +124,4 @@ public class UserService {
         return firstName.toLowerCase() + lastName.charAt(0);
     }
 
-    private String generateRandomPassword(int length) {
-        return java.util.UUID.randomUUID().toString().substring(0, length);
-    }
 }

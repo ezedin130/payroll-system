@@ -4,11 +4,14 @@ import com.payroll.payroll_system.dto.AuthResponse;
 import com.payroll.payroll_system.dto.UserDto.UserInDto;
 import com.payroll.payroll_system.dto.UserDto.UserLoginDto;
 import com.payroll.payroll_system.dto.UserDto.UserOutDto;
+import com.payroll.payroll_system.dto.UserDto.UserPasswordChangeDto;
 import com.payroll.payroll_system.mapper.UserMapper;
 import com.payroll.payroll_system.model.User;
 import com.payroll.payroll_system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +44,23 @@ public class UserController {
         User result = service.findUserById(id);
         UserOutDto dto = mapper.toDto(result);
         return ResponseEntity.ok(dto);
+    }
+    @PutMapping("/me/password")
+    public ResponseEntity<String> changeOwnPassword(
+            @RequestBody UserPasswordChangeDto dto
+    ) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        service.changeOwnPassword(username, dto.getCurrentPassword(), dto.getNewPassword());
+        return ResponseEntity.ok("Password changed successfully");
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}/reset-password")
+    public ResponseEntity<String> resetUserPassword(
+            @PathVariable Long id,
+            @RequestBody UserPasswordChangeDto dto
+    ) {
+        service.resetUserPassword(id, dto.getNewPassword());
+        return ResponseEntity.ok("Password reset successfully");
     }
 }
