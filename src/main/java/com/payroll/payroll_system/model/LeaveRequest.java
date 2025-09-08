@@ -34,4 +34,8 @@ public class LeaveRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emp_id")
     private Employee empId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewed_by")
+    private User reviewedBy;
+    private LocalDate reviewedAt;
 }
