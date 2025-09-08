@@ -15,7 +15,7 @@ public class LeaveRequestMapper {
                 .leaveType(LeaveType.valueOf(dto.getLeaveType()))
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())
-                .status(LeaveRequestStatus.valueOf(dto.getStatus()))
+                .status(LeaveRequestStatus.PENDING)
                 .empId(empl)
                 .build();
     }
@@ -27,6 +27,8 @@ public class LeaveRequestMapper {
         dto.setEndDate(request.getEndDate());
         dto.setStatus(request.getStatus().name());
         dto.setEmpId(request.getEmpId().getId());
+        dto.setReviewedBy(request.getReviewedBy() != null ? request.getReviewedBy().getId() : null);
+        dto.setReviewedAt(request.getReviewedAt());
         return dto;
     }
 }
