@@ -12,4 +12,6 @@ public class LeaveRequestOutDto {
     private LocalDate endDate;
     private String status;
     private Long empId;
+    private Long reviewedBy;
+    private LocalDate reviewedAt;
 }
