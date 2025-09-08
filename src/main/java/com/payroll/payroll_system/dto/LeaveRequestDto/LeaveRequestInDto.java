@@ -13,6 +13,5 @@ public class LeaveRequestInDto {
     private String leaveType;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String status;
     private Long empId;
 }
